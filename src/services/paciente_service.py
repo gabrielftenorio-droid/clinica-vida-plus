@@ -6,17 +6,37 @@ class PacienteService:
         self.repository = PacienteRepository()
 
     def cadastrar(self, paciente):
+        if not paciente.nome.strip():
+            raise ValueError("O nome do paciente é obrigatório.")
+
+        if paciente.idade < 0 or paciente.idade > 120:
+            raise ValueError("A idade deve estar entre 0 e 120 anos.")
+
+        if not paciente.telefone.strip():
+            raise ValueError("O telefone do paciente é obrigatório.")
+
         self.repository.cadastrar(paciente)
 
     def listar(self):
         return self.repository.listar()
 
     def buscar_por_nome(self, nome):
-        pacientes = self.repository.listar()
-        pacientes_encontrados = []
+        return self.repository.buscar_por_nome(nome)
 
-        for paciente in pacientes:
-            if nome.lower() in paciente.nome.lower():
-                pacientes_encontrados.append(paciente)
+    def buscar_por_id(self, paciente_id):
+        return self.repository.buscar_por_id(paciente_id)
 
-        return pacientes_encontrados
+    def atualizar(self, paciente):
+        if not paciente.nome.strip():
+            raise ValueError("O nome do paciente é obrigatório.")
+
+        if paciente.idade < 0 or paciente.idade > 120:
+            raise ValueError("A idade deve estar entre 0 e 120 anos.")
+
+        if not paciente.telefone.strip():
+            raise ValueError("O telefone do paciente é obrigatório.")
+
+        self.repository.atualizar(paciente)
+
+    def excluir(self, paciente_id):
+        self.repository.excluir(paciente_id)
